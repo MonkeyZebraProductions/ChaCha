@@ -47,13 +47,13 @@ public class Hand : MonoBehaviour
     void Start()
     {
         StartCoroutine(AddAdditionalBinding());
-        GrabControlText.text = grabAction.GetBindingDisplayString();
+        GrabControlText.text = grabAction.GetBindingDisplayString(1);
     }
 
     // Update is called once per frame
     void Update()
     {
-        GrabControlText.text = grabAction.GetBindingDisplayString(4);
+
     }
 
     private void FixedUpdate()
@@ -120,6 +120,8 @@ public class Hand : MonoBehaviour
     {
         yield return new WaitForSeconds(5f);
         AddGrabBinding();
+        yield return new WaitForSeconds(0.1f);
+        
     }
 
     void AddGrabBinding()
@@ -127,6 +129,7 @@ public class Hand : MonoBehaviour
         grabAction.ChangeBindingWithGroup("Keyboard&Mouse").Erase();
         grabAction.AddCompositeBinding("OneModifier").With("Binding", "<Keyboard>/F", groups:"Keyboard&Mouse")
                                                      .With("Modifier", "<Keyboard>/Z", groups: "Keyboard&Mouse");
+        GrabControlText.text = grabAction.GetBindingDisplayString(4);
     }
 
     void GrabVoid()
