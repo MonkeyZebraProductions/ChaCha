@@ -25,11 +25,14 @@ public class Hand : MonoBehaviour
     private float GrabGracePeriod = 1f;
     [SerializeField]
     private float grabAngle = 45f;
+    [SerializeField]
+    private char[] additionalButtons;
     private float? grabButtonPressed;
 
     private string initialGrabBind;
 
     bool _grabbed;
+    private bool _gripRelease;
 
     private int numHits;
     private bool _flailing;
@@ -73,7 +76,7 @@ public class Hand : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        //StartCoroutine(AddAdditionalBinding());
+        StartCoroutine(AddAdditionalBinding());
         GrabControlText.text = grabAction.GetBindingDisplayString(1);
         initialGrabBind = grabAction.GetBindingDisplayString(1);
         rickShawTransform = transform.parent;
@@ -84,7 +87,6 @@ public class Hand : MonoBehaviour
     {
         
         float rotationDirection = Vector3.SignedAngle(rickShawTransform.forward,virtualCameraTransform.forward,Vector3.up)*2f;
-        Debug.Log(rotationDirection);
         if(_grabbed)
         {
             handSprite.localRotation = Quaternion.Euler(0f,0f, rotationDirection);
@@ -97,20 +99,25 @@ public class Hand : MonoBehaviour
                 }
                 else if (!leftShiftAction.IsPressed() && !rightShiftAction.IsPressed())
                 {
-                    HoldMeter.value += Time.deltaTime * 1f;  
+                    HoldMeter.value += Time.deltaTime * FillSpeed;  
                 }
             }
             else if (Mathf.Abs(rotationDirection) > grabAngle/2 && (rotationDirection < 0f && leftShiftAction.IsPressed() || rotationDirection > 0f && rightShiftAction.IsPressed()))
             {
-                HoldMeter.value += Time.deltaTime * 1f;
+                HoldMeter.value += Time.deltaTime * FillSpeed;
                 
+            }
+            if(_gripRelease)
+            {
+                HoldMeter.value += Time.deltaTime * FillSpeed/5;
             }
 
             if(HoldMeter.value >= HoldMeter.maxValue)
             {
-                GrabCancel();
+                ReleaseGrip();
             }
         }
+
     }
 
     private void FixedUpdate()
@@ -137,6 +144,7 @@ public class Hand : MonoBehaviour
         {
             _grabbed = true;
             grabButtonPressed = null;
+            _gripRelease = false;
             handSprite.localRotation = Quaternion.identity;
             //rb.constraints = RigidbodyConstraints.FreezeAll;
         }
@@ -177,15 +185,13 @@ public class Hand : MonoBehaviour
     {
         yield return new WaitForSeconds(5f);
         AddGrabBinding();
-        yield return new WaitForSeconds(0.1f);
-        
     }
 
     void AddGrabBinding()
     {
         grabAction.ChangeBindingWithGroup("Keyboard&Mouse").Erase();
         grabAction.AddCompositeBinding("OneModifier").With("Binding", "<Keyboard>/" + initialGrabBind, groups:"Keyboard&Mouse")
-                                                     .With("Modifier", "<Keyboard>/Z", groups: "Keyboard&Mouse");
+                                                     .With("Modifier", "<Keyboard>/" + additionalButtons[Random.Range(0,additionalButtons.Length-1)], groups: "Keyboard&Mouse");
         GrabControlText.text = grabAction.GetBindingDisplayString(1);
         
     }
@@ -199,12 +205,18 @@ public class Hand : MonoBehaviour
     {
         if(_grabbed)
         {
-            _grabbed = false;
-            rb.linearVelocity = Random.insideUnitCircle.normalized * forceStrength*4f;
-            _flailing = true;
-            numHits = 0;
-            HoldMeter.value = 0f;
+            _gripRelease = true;
         }
+    }
+
+    void ReleaseGrip()
+    {
+        _gripRelease = false;
+        _grabbed = false;
+        rb.linearVelocity = Random.insideUnitCircle.normalized * forceStrength * 4f;
+        _flailing = true;
+        numHits = 0;
+        HoldMeter.value = 0f;
     }
 
     void OnEnable()
