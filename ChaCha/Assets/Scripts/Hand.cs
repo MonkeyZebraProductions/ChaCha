@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -26,7 +27,9 @@ public class Hand : MonoBehaviour
     [SerializeField]
     private float grabAngle = 45f;
     [SerializeField]
-    private char[] additionalButtons;
+    private List<char> additionalButtons;
+    private char firstModifier;
+    private char secondModifier;
     private float? grabButtonPressed;
 
     private string initialGrabBind;
@@ -80,6 +83,9 @@ public class Hand : MonoBehaviour
         GrabControlText.text = grabAction.GetBindingDisplayString(1);
         initialGrabBind = grabAction.GetBindingDisplayString(1);
         rickShawTransform = transform.parent;
+        firstModifier = additionalButtons[Random.Range(0, additionalButtons.Count - 1)];
+        additionalButtons.Remove(firstModifier);
+        secondModifier = additionalButtons[Random.Range(0, additionalButtons.Count - 1)];
     }
 
     // Update is called once per frame
@@ -184,16 +190,27 @@ public class Hand : MonoBehaviour
     IEnumerator AddAdditionalBinding()
     {
         yield return new WaitForSeconds(5f);
-        AddGrabBinding();
+        AddOneModifierGrabBinding(); 
+        yield return new WaitForSeconds(6f);
+        AddTwoModifierGrabBinding();
     }
 
-    void AddGrabBinding()
+    void AddOneModifierGrabBinding()
     {
         grabAction.ChangeBindingWithGroup("Keyboard&Mouse").Erase();
         grabAction.AddCompositeBinding("OneModifier").With("Binding", "<Keyboard>/" + initialGrabBind, groups:"Keyboard&Mouse")
-                                                     .With("Modifier", "<Keyboard>/" + additionalButtons[Random.Range(0,additionalButtons.Length-1)], groups: "Keyboard&Mouse");
+                                                     .With("Modifier", "<Keyboard>/" + firstModifier, groups: "Keyboard&Mouse");
         GrabControlText.text = grabAction.GetBindingDisplayString(1);
         
+    }
+    void AddTwoModifierGrabBinding()
+    {
+        grabAction.ChangeCompositeBinding("OneModifier").Erase();
+        grabAction.AddCompositeBinding("TwoModifiers").With("Binding", "<Keyboard>/" + initialGrabBind, groups: "Keyboard&Mouse")
+                                                     .With("Modifier1", "<Keyboard>/" + firstModifier, groups: "Keyboard&Mouse")
+                                                     .With("Modifier2", "<Keyboard>/" + secondModifier, groups: "Keyboard&Mouse");
+        GrabControlText.text = grabAction.GetBindingDisplayString(1);
+
     }
 
     void GrabVoid()
