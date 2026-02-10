@@ -11,6 +11,7 @@ public class Hand : MonoBehaviour
     private Rigidbody rb;
     private InputAction moveAction,grabAction;
 
+    [Header("Controls")]
     [SerializeField]
     private string moveActionName = "LeftMove";
     [SerializeField]
@@ -19,17 +20,32 @@ public class Hand : MonoBehaviour
     [SerializeField]
     private float forceStrength = 1.0f;
 
+    [Header("Grab")]
     [SerializeField]
     private float GrabGracePeriod = 1f;
     private float? grabButtonPressed;
+
+    private string initialGrabBind;
 
     bool _grabbed;
 
     private int numHits;
     private bool _flailing;
 
+    [Header("UI")]
     [SerializeField]
     private TextMeshProUGUI GrabControlText;
+
+    [Header("Hand Visuals")]
+    [SerializeField]
+    private Transform handSprite;
+    [SerializeField]
+    private Transform virtualCameraTransform;
+    private Transform rickShawTransform;
+
+    [SerializeField]
+    private float minRotateDelta;
+
 
     [SerializeField]
     private LayerMask RickshawLayer;
@@ -48,12 +64,20 @@ public class Hand : MonoBehaviour
     {
         StartCoroutine(AddAdditionalBinding());
         GrabControlText.text = grabAction.GetBindingDisplayString(1);
+        initialGrabBind = grabAction.GetBindingDisplayString(1);
+        rickShawTransform = transform.parent;
     }
 
     // Update is called once per frame
     void Update()
     {
-
+        float handZRotation = Quaternion.Angle(rickShawTransform.rotation,virtualCameraTransform.rotation);
+        float rotationDirection = Vector3.SignedAngle(rickShawTransform.forward,virtualCameraTransform.forward,Vector3.up);
+        Debug.Log(rotationDirection);
+        if(_grabbed)
+        {
+            handSprite.localRotation = Quaternion.Euler(0f,0f,handZRotation*(rotationDirection<0? 1:-1));
+        }
     }
 
     private void FixedUpdate()
@@ -75,7 +99,7 @@ public class Hand : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-            Debug.Log(other.gameObject.layer);
+
         if(Time.time-grabButtonPressed <GrabGracePeriod && other.gameObject.layer == 6)
         {
             _grabbed = true;
@@ -91,7 +115,6 @@ public class Hand : MonoBehaviour
             foreach (ContactPoint contactPoint in collision.contacts)
             {
                 Vector3 hitNormal = contactPoint.normal;
-                Debug.DrawLine(contactPoint.point, contactPoint.point + hitNormal * 2, Color.red, 1.0f);
                 //if (rb2D.linearVelocity.y < 0.0f)
                 //{
                 //    yVelocity = -1.0f;
@@ -127,9 +150,10 @@ public class Hand : MonoBehaviour
     void AddGrabBinding()
     {
         grabAction.ChangeBindingWithGroup("Keyboard&Mouse").Erase();
-        grabAction.AddCompositeBinding("OneModifier").With("Binding", "<Keyboard>/F", groups:"Keyboard&Mouse")
+        grabAction.AddCompositeBinding("OneModifier").With("Binding", "<Keyboard>/" + initialGrabBind, groups:"Keyboard&Mouse")
                                                      .With("Modifier", "<Keyboard>/Z", groups: "Keyboard&Mouse");
         GrabControlText.text = grabAction.GetBindingDisplayString(4);
+        
     }
 
     void GrabVoid()
@@ -140,7 +164,7 @@ public class Hand : MonoBehaviour
     void GrabCancel()
     {
         _grabbed = false;
-        rb.linearVelocity = Random.insideUnitCircle.normalized * forceStrength;
+        rb.linearVelocity = Random.insideUnitCircle.normalized * forceStrength*4f;
         _flailing = true;
     }
 
