@@ -3,13 +3,13 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Rendering;
-using UnityEngine.UIElements;
+using UnityEngine.UI;
 
 public class Hand : MonoBehaviour
 {
     private PlayerInput playerInput;
     private Rigidbody rb;
-    private InputAction moveAction,grabAction;
+    private InputAction moveAction,grabAction,leftShiftAction,rightShiftAction;
 
     [Header("Controls")]
     [SerializeField]
@@ -23,6 +23,8 @@ public class Hand : MonoBehaviour
     [Header("Grab")]
     [SerializeField]
     private float GrabGracePeriod = 1f;
+    [SerializeField]
+    private float grabAngle = 45f;
     private float? grabButtonPressed;
 
     private string initialGrabBind;
@@ -32,9 +34,16 @@ public class Hand : MonoBehaviour
     private int numHits;
     private bool _flailing;
 
+
     [Header("UI")]
     [SerializeField]
     private TextMeshProUGUI GrabControlText;
+    [SerializeField]
+    private Slider HoldMeter;
+
+
+    [SerializeField]
+    private float FillSpeed = 1f;
 
     [Header("Hand Visuals")]
     [SerializeField]
@@ -58,11 +67,13 @@ public class Hand : MonoBehaviour
 
         moveAction = playerInput.actions[moveActionName];
         grabAction = playerInput.actions[grabActionName];
+        leftShiftAction = playerInput.actions["Shift Left"];
+        rightShiftAction = playerInput.actions["Shift Right"];
     }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        StartCoroutine(AddAdditionalBinding());
+        //StartCoroutine(AddAdditionalBinding());
         GrabControlText.text = grabAction.GetBindingDisplayString(1);
         initialGrabBind = grabAction.GetBindingDisplayString(1);
         rickShawTransform = transform.parent;
@@ -71,12 +82,34 @@ public class Hand : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        float handZRotation = Quaternion.Angle(rickShawTransform.rotation,virtualCameraTransform.rotation);
-        float rotationDirection = Vector3.SignedAngle(rickShawTransform.forward,virtualCameraTransform.forward,Vector3.up);
+        
+        float rotationDirection = Vector3.SignedAngle(rickShawTransform.forward,virtualCameraTransform.forward,Vector3.up)*2f;
         Debug.Log(rotationDirection);
         if(_grabbed)
         {
-            handSprite.localRotation = Quaternion.Euler(0f,0f,handZRotation*(rotationDirection<0? 1:-1));
+            handSprite.localRotation = Quaternion.Euler(0f,0f, rotationDirection);
+
+            if(Mathf.Abs(rotationDirection) >grabAngle)
+            {
+                if (rotationDirection > 0f && leftShiftAction.IsPressed() || rotationDirection < 0f && rightShiftAction.IsPressed())
+                {
+
+                }
+                else if (!leftShiftAction.IsPressed() && !rightShiftAction.IsPressed())
+                {
+                    HoldMeter.value += Time.deltaTime * 1f;  
+                }
+            }
+            else if (Mathf.Abs(rotationDirection) > grabAngle/2 && (rotationDirection < 0f && leftShiftAction.IsPressed() || rotationDirection > 0f && rightShiftAction.IsPressed()))
+            {
+                HoldMeter.value += Time.deltaTime * 1f;
+                
+            }
+
+            if(HoldMeter.value >= HoldMeter.maxValue)
+            {
+                GrabCancel();
+            }
         }
     }
 
@@ -104,6 +137,7 @@ public class Hand : MonoBehaviour
         {
             _grabbed = true;
             grabButtonPressed = null;
+            handSprite.localRotation = Quaternion.identity;
             //rb.constraints = RigidbodyConstraints.FreezeAll;
         }
     }
@@ -152,7 +186,7 @@ public class Hand : MonoBehaviour
         grabAction.ChangeBindingWithGroup("Keyboard&Mouse").Erase();
         grabAction.AddCompositeBinding("OneModifier").With("Binding", "<Keyboard>/" + initialGrabBind, groups:"Keyboard&Mouse")
                                                      .With("Modifier", "<Keyboard>/Z", groups: "Keyboard&Mouse");
-        GrabControlText.text = grabAction.GetBindingDisplayString(4);
+        GrabControlText.text = grabAction.GetBindingDisplayString(1);
         
     }
 
@@ -163,9 +197,14 @@ public class Hand : MonoBehaviour
 
     void GrabCancel()
     {
-        _grabbed = false;
-        rb.linearVelocity = Random.insideUnitCircle.normalized * forceStrength*4f;
-        _flailing = true;
+        if(_grabbed)
+        {
+            _grabbed = false;
+            rb.linearVelocity = Random.insideUnitCircle.normalized * forceStrength*4f;
+            _flailing = true;
+            numHits = 0;
+            HoldMeter.value = 0f;
+        }
     }
 
     void OnEnable()

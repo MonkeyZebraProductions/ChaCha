@@ -32,6 +32,33 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "Right Grab",
+                    "type": "Button",
+                    "id": "273084d9-e59c-4783-a8d8-5056da291cb4",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Shift Left",
+                    "type": "Button",
+                    "id": "6daf947f-0866-4be6-92be-1caa7b949135",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Shift Right",
+                    "type": "Button",
+                    "id": "8c09111d-4e0b-4708-81e1-525e55ffbd17",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -279,34 +306,45 @@
                 },
                 {
                     "name": "",
-                    "id": "886e731e-7071-4ae4-95c0-e61739dad6fd",
-                    "path": "<Touchscreen>/primaryTouch/tap",
+                    "id": "8fddab3f-c6d9-4caf-91d3-24e8e8d3097b",
+                    "path": "<Gamepad>/rightTrigger",
                     "interactions": "",
                     "processors": "",
-                    "groups": ";Touch",
-                    "action": "Left Grab",
+                    "groups": ";Gamepad",
+                    "action": "Right Grab",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
-                    "id": "ee3d0cd2-254e-47a7-a8cb-bc94d9658c54",
-                    "path": "<Joystick>/trigger",
+                    "id": "47392b8c-6764-42e8-afc5-2e349597d68b",
+                    "path": "<Keyboard>/h",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Joystick",
-                    "action": "Left Grab",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "Right Grab",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
-                    "id": "8255d333-5683-4943-a58a-ccb207ff1dce",
-                    "path": "<XRController>/{PrimaryAction}",
+                    "id": "27668ab6-98ba-4513-ba57-6575872509c7",
+                    "path": "<Keyboard>/leftShift",
                     "interactions": "",
                     "processors": "",
-                    "groups": "XR",
-                    "action": "Left Grab",
+                    "groups": "",
+                    "action": "Shift Left",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "1d398c92-a15e-4774-afec-17c6bd8b8ff5",
+                    "path": "<Keyboard>/rightShift",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Shift Right",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
