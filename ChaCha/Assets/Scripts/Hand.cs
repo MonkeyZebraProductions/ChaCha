@@ -20,6 +20,8 @@ public class Hand : MonoBehaviour
 
     [SerializeField]
     private float forceStrength = 1.0f;
+    [SerializeField]
+    private float moveSpeed = 2.0f;
 
     [Header("Grab")]
     [SerializeField]
@@ -50,10 +52,12 @@ public class Hand : MonoBehaviour
     private TextMeshProUGUI GrabControlText;
     [SerializeField]
     private Slider HoldMeter;
-
-
+    [SerializeField]
+    private TextMeshProUGUI ShiftText;
     [SerializeField]
     private float FillSpeed = 1f;
+    [SerializeField]
+    private bool leftShift; 
 
     [Header("Hand Visuals")]
     [SerializeField]
@@ -117,9 +121,19 @@ public class Hand : MonoBehaviour
                 HoldMeter.value += Time.deltaTime * FillSpeed;
                 
             }
-            if(_gripRelease)
+            
+           if(leftShift)
+           {
+                ShiftText.enabled = rotationDirection < -grabAngle + 5;
+           }
+           else
+           {
+                ShiftText.enabled = rotationDirection > grabAngle - 5;
+           }
+
+            if (_gripRelease)
             {
-                HoldMeter.value += Time.deltaTime * FillSpeed/5;
+                HoldMeter.value += Time.deltaTime * FillSpeed / 5;
             }
 
             if(HoldMeter.value >= HoldMeter.maxValue)
@@ -137,7 +151,7 @@ public class Hand : MonoBehaviour
             Vector2 moveInput = moveAction.ReadValue<Vector2>();
             Vector3 moveVector3 = new Vector3(moveInput.x, moveInput.y, 0);
 
-            transform.localPosition+=moveVector3.normalized * Time.fixedDeltaTime;
+            transform.localPosition+=moveVector3.normalized* moveSpeed * Time.fixedDeltaTime;
             //rb.AddRelativeForce(moveVector3.normalized*forceStrength);
         }
          transform.localPosition = new Vector3 (transform.localPosition.x, transform.localPosition.y,-0.65f);
