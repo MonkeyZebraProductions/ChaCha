@@ -429,7 +429,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 0.00012207031, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 835.72, y: 439.29004}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &96697999
@@ -3771,7 +3771,6 @@ GameObject:
   - component: {fileID: 1542624374}
   - component: {fileID: 1542624379}
   - component: {fileID: 1542624380}
-  - component: {fileID: 1542624378}
   - component: {fileID: 1542624381}
   m_Layer: 0
   m_Name: Left Hand
@@ -3874,36 +3873,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1542624372}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &1542624378
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1542624372}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Unity.InputSystem::UnityEngine.InputSystem.PlayerInput
-  m_Actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
-  m_NotificationBehavior: 0
-  m_UIInputModule: {fileID: 0}
-  m_DeviceLostEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_DeviceRegainedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ControlsChangedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ActionEvents: []
-  m_NeverAutoSwitchControlSchemes: 0
-  m_DefaultControlScheme: 
-  m_DefaultActionMap: Player
-  m_SplitScreenIndex: -1
-  m_Camera: {fileID: 330585545}
 --- !u!114 &1542624379
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3916,12 +3885,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a016a6a51c813940880d56194729603, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Hand
-  moveActionName: Left Move
-  grabActionName: Left Grab
+  moveActionName: Move
+  grabActionName: Grab
+  actionMap: Left Hand
   forceStrength: 1
   moveSpeed: 2
   GrabGracePeriod: 0.2
-  grabAngle: 45
+  grabAngle: 40
   additionalButtons: 710065007a007800630076007200
   minGrabBindingDelay: 17
   maxGrabBindingDelay: 30
@@ -3929,7 +3899,7 @@ MonoBehaviour:
   GrabControlText: {fileID: 860745446}
   HoldMeter: {fileID: 724327047}
   ShiftText: {fileID: 96697999}
-  FillSpeed: 1
+  FillSpeed: 0.5
   leftShift: 1
   handSprite: {fileID: 1333604901}
   virtualCameraTransform: {fileID: 1574906724}
@@ -4645,7 +4615,6 @@ GameObject:
   - component: {fileID: 1918618124}
   - component: {fileID: 1918618123}
   - component: {fileID: 1918618122}
-  - component: {fileID: 1918618121}
   - component: {fileID: 1918618120}
   m_Layer: 0
   m_Name: Right Hand
@@ -4692,36 +4661,6 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.83
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &1918618121
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1918618118}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Unity.InputSystem::UnityEngine.InputSystem.PlayerInput
-  m_Actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
-  m_NotificationBehavior: 0
-  m_UIInputModule: {fileID: 0}
-  m_DeviceLostEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_DeviceRegainedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ControlsChangedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ActionEvents: []
-  m_NeverAutoSwitchControlSchemes: 0
-  m_DefaultControlScheme: 
-  m_DefaultActionMap: Player
-  m_SplitScreenIndex: -1
-  m_Camera: {fileID: 330585545}
 --- !u!54 &1918618122
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -4761,12 +4700,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a016a6a51c813940880d56194729603, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Hand
-  moveActionName: Right Move
-  grabActionName: Right Grab
+  moveActionName: Move
+  grabActionName: Grab
+  actionMap: Right Hand
   forceStrength: 1
   moveSpeed: 2
   GrabGracePeriod: 0.2
-  grabAngle: 45
+  grabAngle: 40
   additionalButtons: 70006f006d006e00620079007500
   minGrabBindingDelay: 27
   maxGrabBindingDelay: 40
@@ -4952,6 +4892,7 @@ GameObject:
   - component: {fileID: 1952619883}
   - component: {fileID: 1952619882}
   - component: {fileID: 1952619887}
+  - component: {fileID: 1952619888}
   m_Layer: 6
   m_Name: Cube
   m_TagString: Untagged
@@ -5109,6 +5050,36 @@ MonoBehaviour:
   m_ObjectForwardAxis: 2
   m_ObjectUpAxis: 1
   m_StartOffset: 0
+--- !u!114 &1952619888
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1952619881}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.InputSystem::UnityEngine.InputSystem.PlayerInput
+  m_Actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+  m_NotificationBehavior: 0
+  m_UIInputModule: {fileID: 0}
+  m_DeviceLostEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_DeviceRegainedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ControlsChangedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ActionEvents: []
+  m_NeverAutoSwitchControlSchemes: 0
+  m_DefaultControlScheme: Keyboard&Mouse
+  m_DefaultActionMap: 
+  m_SplitScreenIndex: -1
+  m_Camera: {fileID: 330585545}
 --- !u!1 &1994642144
 GameObject:
   m_ObjectHideFlags: 0
@@ -5180,7 +5151,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.0007324219, y: 0}
+  m_AnchoredPosition: {x: 0.0009765625, y: 0}
   m_SizeDelta: {x: 835.72, y: 439.29004}
   m_Pivot: {x: 1, y: 1}
 --- !u!114 &1996339520

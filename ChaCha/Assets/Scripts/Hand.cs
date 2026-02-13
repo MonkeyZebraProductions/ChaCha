@@ -17,6 +17,8 @@ public class Hand : MonoBehaviour
     private string moveActionName = "LeftMove";
     [SerializeField]
     private string grabActionName = "Left Grab";
+    [SerializeField]
+    private string actionMap = "Left Hand";
 
     [SerializeField]
     private float forceStrength = 1.0f;
@@ -76,8 +78,11 @@ public class Hand : MonoBehaviour
     private void Awake()
     {
         //Assigns variables at start of Runtime
-        playerInput = GetComponent<PlayerInput>();
+        playerInput = transform.parent.GetComponent<PlayerInput>();
         rb = GetComponent<Rigidbody>();
+
+        playerInput.actions.Disable();
+        playerInput.actions.FindActionMap(actionMap).Enable();
 
         moveAction = playerInput.actions[moveActionName];
         grabAction = playerInput.actions[grabActionName];
@@ -261,13 +266,15 @@ public class Hand : MonoBehaviour
 
     void OnEnable()
     {
+
+        playerInput.actions.Enable();
         grabAction.started += context => GrabVoid();
         grabAction.canceled += context => GrabCancel();
-        //playerInput.Enable();
     }
 
     void OnDisable()
     {
+        playerInput.actions.Disable();
         grabAction.started -= context => GrabVoid();
         grabAction.canceled -= context => GrabCancel();
     }
