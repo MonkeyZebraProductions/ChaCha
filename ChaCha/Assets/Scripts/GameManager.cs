@@ -5,13 +5,15 @@ public class GameManager : MonoBehaviour
 {
 
     public UnityEvent StartEvent;
+    public UnityEvent DangerEvent;
+    public UnityEvent RegrabEvent;
 
     [SerializeField]
     Hand LeftHand;
     [SerializeField]
     Hand RightHand;
 
-    bool _gameStarted = false;
+    bool _gameStarted,_inDanger = false;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -28,6 +30,23 @@ public class GameManager : MonoBehaviour
                 StartEvent?.Invoke();
                 _gameStarted = true;
             }
+
+            if(_gameStarted && !_inDanger && !LeftHand.Grabbed && !RightHand.Grabbed)
+            {
+                DangerEvent?.Invoke();
+                _inDanger = true;
+            }
+
+            if (_gameStarted && _inDanger && (LeftHand.Grabbed || RightHand.Grabbed))
+            {
+                RegrabEvent?.Invoke();
+                _inDanger = false;
+            }
         }
+    }
+
+    public void GameFail()
+    {
+
     }
 }
