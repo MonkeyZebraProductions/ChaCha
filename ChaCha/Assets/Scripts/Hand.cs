@@ -10,20 +10,19 @@ public class Hand : MonoBehaviour
 {
     private PlayerInput playerInput;
     private Rigidbody rb;
-    private InputAction moveAction,grabAction,leftShiftAction,rightShiftAction;
+    private InputAction grabAction,leftShiftAction,rightShiftAction;
 
     [Header("Controls")]
-    [SerializeField]
-    private string moveActionName = "LeftMove";
     [SerializeField]
     private string grabActionName = "Left Grab";
     [SerializeField]
     private string actionMap = "Left Hand";
 
+    [Header("Bouncing")]
     [SerializeField]
     private float forceStrength = 1.0f;
-    [SerializeField]
-    private float moveSpeed = 2.0f;
+    [SerializeField] private float AxisRatio = 5;
+    [SerializeField] private float AngleSarpness = 0.3f;
 
     [Header("Grab")]
     [SerializeField]
@@ -32,6 +31,7 @@ public class Hand : MonoBehaviour
     private float grabAngle = 45f;
     [SerializeField]
     private List<char> additionalButtons;
+    private List<char> currentAdditionalButtons;
     [SerializeField]
     private float minGrabBindingDelay = 10f;
     [SerializeField]
@@ -84,7 +84,6 @@ public class Hand : MonoBehaviour
         playerInput.actions.Disable();
         playerInput.actions.FindActionMap(actionMap).Enable();
 
-        moveAction = playerInput.actions[moveActionName];
         grabAction = playerInput.actions[grabActionName];
         leftShiftAction = playerInput.actions["Shift Left"];
         rightShiftAction = playerInput.actions["Shift Right"];
@@ -96,9 +95,10 @@ public class Hand : MonoBehaviour
         GrabControlText.text = grabAction.GetBindingDisplayString(1);
         initialGrabBind = grabAction.GetBindingDisplayString(1);
         rickShawTransform = transform.parent;
-        firstModifier = additionalButtons[Random.Range(0, additionalButtons.Count - 1)];
+        currentAdditionalButtons = additionalButtons;
+        firstModifier = currentAdditionalButtons[Random.Range(0, additionalButtons.Count - 1)];
         additionalButtons.Remove(firstModifier);
-        secondModifier = additionalButtons[Random.Range(0, additionalButtons.Count - 1)];
+        secondModifier = currentAdditionalButtons[Random.Range(0, additionalButtons.Count - 1)];
     }
 
     // Update is called once per frame
@@ -151,14 +151,6 @@ public class Hand : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (moveAction != null && !Grabbed) 
-        {
-            Vector2 moveInput = moveAction.ReadValue<Vector2>();
-            Vector3 moveVector3 = new Vector3(moveInput.x, moveInput.y, 0);
-
-            transform.localPosition+=moveVector3.normalized* moveSpeed * Time.fixedDeltaTime;
-            //rb.AddRelativeForce(moveVector3.normalized*forceStrength);
-        }
          transform.localPosition = new Vector3 (transform.localPosition.x, transform.localPosition.y,-0.65f);
         if(Grabbed )
         {
@@ -172,6 +164,7 @@ public class Hand : MonoBehaviour
         if(Time.time-grabButtonPressed <GrabGracePeriod && other.gameObject.layer == 6)
         {
             Grabbed = true;
+            _flailing = false;
             grabButtonPressed = null;
             _gripRelease = false;
             handSprite.localRotation = Quaternion.identity;
@@ -183,30 +176,58 @@ public class Hand : MonoBehaviour
     {
         if (_flailing)
         {
+            //if (rb.linearVelocity.magnitude < forceStrength)
+            //{
+            //    rb.linearVelocity = rb.linearVelocity.normalized * forceStrength;
+            //}
+
+            //if (rb.linearVelocity.magnitude > forceStrength)
+            //{
+            //    rb.linearVelocity = rb.linearVelocity.normalized * forceStrength;
+            //}
+
             foreach (ContactPoint contactPoint in collision.contacts)
             {
-                Vector3 hitNormal = contactPoint.normal;
-                //if (rb2D.linearVelocity.y < 0.0f)
-                //{
-                //    yVelocity = -1.0f;
-                //}
-                //else
-                //{
-                //    yVelocity = 1.0f;
-                //}
-                rb.linearVelocity = new Vector2(hitNormal.x, hitNormal.y).normalized * forceStrength * Mathf.Pow(0.8f, numHits);
-                numHits++;
+                Vector2 hitNormal = contactPoint.normal;
+                float xVelocity;
+                float yVelocity;
+                if (Mathf.Abs(hitNormal.x) <= 0.1f)
+                {
+                    if (rb.linearVelocity.x < 0.0f)
+                    {
+                        xVelocity = -1.0f;
+                    }
+                    else
+                    {
+                        xVelocity = 1.0f;
+                    }
+                    rb.linearVelocity = new Vector2(xVelocity, hitNormal.y * AxisRatio).normalized * forceStrength;
+                    
+                }
+                if (Mathf.Abs(hitNormal.y) <= 0.1f)
+                {
+                    if (rb.linearVelocity.y < 0.0f)
+                    {
+                        yVelocity = -1.0f;
+                    }
+                    else
+                    {
+                        yVelocity = 1.0f;
+                    }
+                    rb.linearVelocity = new Vector2(hitNormal.x * AxisRatio, yVelocity).normalized * forceStrength;
+                }
+                    Debug.Log(hitNormal);
+
             }
-            if (numHits > 5)
-            {
-                numHits = 0;
-                _flailing = false;
-            }
+
+            
+            numHits++;
         }
-        else
-        {
-            rb.linearVelocity = Vector3.zero;
-        }
+        //else
+        //{
+        //    rb.linearVelocity = Vector3.zero;
+        //    Debug.Log("Don't MOVE!");
+        //}
         //AddGrabBinding();
     }
 
@@ -220,7 +241,34 @@ public class Hand : MonoBehaviour
         yield return new WaitForSeconds(Random.Range(minGrabBindingDelay,maxGrabBindingDelay));
         AddOneModifierGrabBinding(); 
         yield return new WaitForSeconds(Random.Range(minGrabBindingDelay, maxGrabBindingDelay));
-        AddTwoModifierGrabBinding();
+        grabAction.ChangeCompositeBinding("OneModifier").Erase();
+        AddTwoModifierGrabBinding(initialGrabBind,firstModifier,secondModifier);
+    }
+
+    IEnumerator AddRandomBinding()
+    {
+        if(currentAdditionalButtons.Count<0)
+        {
+            currentAdditionalButtons = additionalButtons;
+        }
+        int randomInt= Random.Range(0, 2);
+        char newBinding = currentAdditionalButtons[Random.Range(0, additionalButtons.Count - 1)];
+        switch (randomInt)
+        {
+            case 0:
+                initialGrabBind = newBinding.ToString();
+                break;
+            case 1:
+                firstModifier = newBinding;
+                break;
+            case 2: 
+                secondModifier = newBinding; 
+                break;
+        }
+        currentAdditionalButtons.Remove(newBinding);
+        yield return new WaitForSeconds(Random.Range(minGrabBindingDelay, maxGrabBindingDelay));
+        grabAction.ChangeCompositeBinding("TwoModifiers").Erase();
+        AddTwoModifierGrabBinding(initialGrabBind, firstModifier, secondModifier);
     }
 
     void AddOneModifierGrabBinding()
@@ -231,14 +279,13 @@ public class Hand : MonoBehaviour
         GrabControlText.text = grabAction.GetBindingDisplayString(1);
         
     }
-    void AddTwoModifierGrabBinding()
+    void AddTwoModifierGrabBinding(string binding, char modifier1, char modifier2)
     {
-        grabAction.ChangeCompositeBinding("OneModifier").Erase();
-        grabAction.AddCompositeBinding("TwoModifiers").With("Binding", "<Keyboard>/" + initialGrabBind, groups: "Keyboard&Mouse")
-                                                     .With("Modifier1", "<Keyboard>/" + firstModifier, groups: "Keyboard&Mouse")
-                                                     .With("Modifier2", "<Keyboard>/" + secondModifier, groups: "Keyboard&Mouse");
+        grabAction.AddCompositeBinding("TwoModifiers").With("Binding", "<Keyboard>/" + binding, groups: "Keyboard&Mouse")
+                                                     .With("Modifier1", "<Keyboard>/" + modifier1, groups: "Keyboard&Mouse")
+                                                     .With("Modifier2", "<Keyboard>/" + modifier2, groups: "Keyboard&Mouse");
         GrabControlText.text = grabAction.GetBindingDisplayString(1);
-
+        StartCoroutine(AddRandomBinding());
     }
 
     void GrabVoid()
@@ -258,7 +305,7 @@ public class Hand : MonoBehaviour
     {
         _gripRelease = false;
         Grabbed = false;
-        rb.linearVelocity = Random.insideUnitCircle.normalized * forceStrength * 4f;
+        rb.linearVelocity = Random.insideUnitCircle.normalized * forceStrength * 2f;
         _flailing = true;
         numHits = 0;
         HoldMeter.value = 0f;
