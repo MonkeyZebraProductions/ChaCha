@@ -36,6 +36,8 @@ public class Hand : MonoBehaviour
     private float minGrabBindingDelay = 10f;
     [SerializeField]
     private float maxGrabBindingDelay = 15f;
+    [SerializeField]
+    private float HitFill = 0.025f;
     private char firstModifier;
     private char secondModifier;
     private float? grabButtonPressed;
@@ -129,16 +131,16 @@ public class Hand : MonoBehaviour
             
            if(leftShift)
            {
-                ShiftText.enabled = rotationDirection < -grabAngle + 5;
+                ShiftText.enabled = rotationDirection < -grabAngle + 10;
            }
            else
            {
-                ShiftText.enabled = rotationDirection > grabAngle - 5;
+                ShiftText.enabled = rotationDirection > grabAngle - 10;
            }
 
             if (_gripRelease)
             {
-                HoldMeter.value += Time.deltaTime * FillSpeed / 5;
+                HoldMeter.value += Time.deltaTime * FillSpeed / 4;  
             }
 
             if(HoldMeter.value >= HoldMeter.maxValue)
@@ -219,7 +221,7 @@ public class Hand : MonoBehaviour
                     Debug.Log(hitNormal);
 
             }
-
+            HoldMeter.value += HitFill * numHits;
             
             numHits++;
         }
