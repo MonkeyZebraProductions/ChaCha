@@ -22,6 +22,7 @@ public class PlayWooshSound : MonoBehaviour
         if (m_AudioSource != null && !m_AudioSource.isPlaying)
         {
             m_AudioSource.Play();
+            Debug.Log("PlaySound");
         }
     }
 }

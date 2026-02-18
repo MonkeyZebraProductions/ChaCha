@@ -38,6 +38,7 @@ public class Hand : MonoBehaviour
     private float maxGrabBindingDelay = 15f;
     [SerializeField]
     private float HitFill = 0.025f;
+    private AudioSource grabSound;
     private char firstModifier;
     private char secondModifier;
     private float? grabButtonPressed;
@@ -101,6 +102,8 @@ public class Hand : MonoBehaviour
         firstModifier = currentAdditionalButtons[Random.Range(0, additionalButtons.Count - 1)];
         additionalButtons.Remove(firstModifier);
         secondModifier = currentAdditionalButtons[Random.Range(0, additionalButtons.Count - 1)];
+        additionalButtons.Remove(secondModifier);
+        grabSound = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -170,6 +173,10 @@ public class Hand : MonoBehaviour
             grabButtonPressed = null;
             _gripRelease = false;
             handSprite.localRotation = Quaternion.identity;
+            if(grabSound)
+            {
+                grabSound.Play();
+            }
             //rb.constraints = RigidbodyConstraints.FreezeAll;
         }
     }
@@ -251,7 +258,7 @@ public class Hand : MonoBehaviour
     {
         if(currentAdditionalButtons.Count<0)
         {
-            currentAdditionalButtons = additionalButtons;
+            ResetBindings();
         }
         int randomInt= Random.Range(0, 2);
         char newBinding = currentAdditionalButtons[Random.Range(0, additionalButtons.Count - 1)];
@@ -271,6 +278,14 @@ public class Hand : MonoBehaviour
         yield return new WaitForSeconds(Random.Range(minGrabBindingDelay, maxGrabBindingDelay));
         grabAction.ChangeCompositeBinding("TwoModifiers").Erase();
         AddTwoModifierGrabBinding(initialGrabBind, firstModifier, secondModifier);
+    }
+
+    void ResetBindings()
+    {
+        currentAdditionalButtons = additionalButtons;
+        currentAdditionalButtons.Remove(initialGrabBind.ToCharArray()[0]);
+        currentAdditionalButtons.Remove(firstModifier);
+        currentAdditionalButtons.Remove(secondModifier);
     }
 
     void AddOneModifierGrabBinding()
