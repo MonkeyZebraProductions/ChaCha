@@ -638,6 +638,89 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 96697997}
   m_CullTransparentMesh: 1
+--- !u!1 &98864125
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 98864128}
+  - component: {fileID: 98864127}
+  - component: {fileID: 98864126}
+  m_Layer: 0
+  m_Name: Speed Trap (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &98864126
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 98864125}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 42655201fa8854e4eb684250b1d346cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SpeedChanger
+  OnChangeSpeed:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1952619889}
+        m_TargetAssemblyTypeName: SpeedController, Assembly-CSharp
+        m_MethodName: SetSpeedChange
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  targetSpeed: 22
+  smoothTime: 1
+--- !u!65 &98864127
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 98864125}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!4 &98864128
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 98864125}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -18.7, y: 1.23, z: -19}
+  m_LocalScale: {x: 1.37, y: 4, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &186411081
 GameObject:
   m_ObjectHideFlags: 0
@@ -2156,7 +2239,7 @@ MonoBehaviour:
       TangentOut:
         x: 0
         y: 0
-        z: 6.499406
+        z: 4.381507
       Rotation:
         value:
           x: 0
@@ -2164,13 +2247,31 @@ MonoBehaviour:
           z: 0
           w: 1
     - Position:
+        x: -15.318619
+        y: 0
+        z: 2.7759583
+      TangentIn:
+        x: 0
+        y: 0
+        z: -7.33103
+      TangentOut:
+        x: 0.00000023841858
+        y: 0
+        z: 3.5436177
+      Rotation:
+        value:
+          x: 0
+          y: 0.7507466
+          z: 0
+          w: -0.6605903
+    - Position:
         x: -24.322859
         y: 0
         z: 1.7824383
       TangentIn:
         x: 0
         y: 0
-        z: -6.616588
+        z: -2.156083
       TangentOut:
         x: 0
         y: 0
@@ -2390,13 +2491,31 @@ MonoBehaviour:
       TangentOut:
         x: 0
         y: 0
-        z: 5.1488194
+        z: 2.8768497
       Rotation:
         value:
-          x: -0.000000055541463
-          y: 0.87160844
-          z: 0.000000079514614
-          w: 0.49020275
+          x: -0.000000055541456
+          y: 0.8716085
+          z: 0.000000079514585
+          w: 0.4902026
+    - Position:
+        x: -5.176138
+        y: 27.52
+        z: -43.3175
+      TangentIn:
+        x: 0.0000019073486
+        y: -3.9790393e-13
+        z: -4.24404
+      TangentOut:
+        x: 0.00000047683716
+        y: 8.526513e-14
+        z: 3.3516994
+      Rotation:
+        value:
+          x: -0.000000038255937
+          y: 0.71814996
+          z: 0.00000009859739
+          w: 0.69588846
     - Position:
         x: 2.6177826
         y: 0
@@ -2404,7 +2523,7 @@ MonoBehaviour:
       TangentIn:
         x: 0
         y: 0
-        z: -4.163787
+        z: -1.8373152
       TangentOut:
         x: 0
         y: 0
@@ -2526,7 +2645,7 @@ MonoBehaviour:
     m_MetaData:
     - Mode: 4
       Tension: 0.5
-    - Mode: 3
+    - Mode: 4
       Tension: 0.5
     - Mode: 3
       Tension: 0.5
@@ -2551,6 +2670,10 @@ MonoBehaviour:
     - Mode: 3
       Tension: 0.5
     - Mode: 3
+      Tension: 0.5
+    - Mode: 3
+      Tension: 0.5
+    - Mode: 4
       Tension: 0.5
     - Mode: 3
       Tension: 0.5
@@ -2575,8 +2698,45 @@ MonoBehaviour:
       m_Data: []
     m_ObjectData:
       m_Data: []
+  - m_EditModeType: 1
+    m_Knots:
+    - Position:
+        x: -15.318619
+        y: 0
+        z: 2.775959
+      TangentIn:
+        x: -0
+        y: -0
+        z: -0
+      TangentOut:
+        x: 0
+        y: 0
+        z: 0
+      Rotation:
+        value:
+          x: 0
+          y: 0
+          z: 0
+          w: 1
+    m_MetaData:
+    - Mode: 0
+      Tension: 0.5
+    m_Closed: 0
+    m_IntData:
+      m_Data: []
+    m_FloatData:
+      m_Data: []
+    m_Float4Data:
+      m_Data: []
+    m_ObjectData:
+      m_Data: []
   m_Knots:
-    m_KnotsLink: []
+    m_KnotsLink:
+    - Knots:
+      - Spline: 1
+        Knot: 0
+      - Spline: 0
+        Knot: 1
 --- !u!4 &773752838
 Transform:
   m_ObjectHideFlags: 0
@@ -3998,7 +4158,7 @@ GameObject:
   - component: {fileID: 1276316814}
   - component: {fileID: 1276316816}
   m_Layer: 0
-  m_Name: Cube (1)
+  m_Name: Speed Trap
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4034,8 +4194,8 @@ Transform:
   m_GameObject: {fileID: 1276316813}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -21.1, y: 1.23, z: 2.9}
-  m_LocalScale: {x: 4, y: 4, z: 1}
+  m_LocalPosition: {x: -22.51, y: 1.23, z: 3.19}
+  m_LocalScale: {x: 1.37, y: 4, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -4775,6 +4935,7 @@ GameObject:
   - component: {fileID: 1542624380}
   - component: {fileID: 1542624381}
   - component: {fileID: 1542624382}
+  - component: {fileID: 1542624383}
   m_Layer: 7
   m_Name: Left Hand
   m_TagString: Untagged
@@ -4899,6 +5060,8 @@ MonoBehaviour:
   minGrabBindingDelay: 15
   maxGrabBindingDelay: 25
   HitFill: 0.025
+  grabSound: {fileID: 1542624382}
+  thumpSound: {fileID: 1542624383}
   Grabbed: 0
   GrabControlText: {fileID: 860745446}
   HoldMeter: {fileID: 724327047}
@@ -4972,6 +5135,103 @@ AudioSource:
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 8300000, guid: 0bacc3c6b3c15b14a98da7ed7e675f3e, type: 3}
   m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+--- !u!82 &1542624383
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1542624372}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 8300000, guid: 3a843891715500848ad40f8459c7622c, type: 3}
+  m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
@@ -5969,6 +6229,7 @@ GameObject:
   - component: {fileID: 1918618122}
   - component: {fileID: 1918618120}
   - component: {fileID: 1918618127}
+  - component: {fileID: 1918618128}
   m_Layer: 7
   m_Name: Right Hand
   m_TagString: Untagged
@@ -6064,6 +6325,8 @@ MonoBehaviour:
   minGrabBindingDelay: 23
   maxGrabBindingDelay: 33
   HitFill: 0.025
+  grabSound: {fileID: 1918618127}
+  thumpSound: {fileID: 1918618128}
   Grabbed: 0
   GrabControlText: {fileID: 1720806554}
   HoldMeter: {fileID: 186411083}
@@ -6166,6 +6429,103 @@ AudioSource:
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 8300000, guid: 0bacc3c6b3c15b14a98da7ed7e675f3e, type: 3}
   m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+--- !u!82 &1918618128
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1918618118}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 8300000, guid: 3a843891715500848ad40f8459c7622c, type: 3}
+  m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
@@ -6464,10 +6824,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Unity.Splines::UnityEngine.Splines.SplineAnimate
   m_Target: {fileID: 773752837}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_LoopMode: 1
   m_Method: 1
-  m_Duration: 14.009081
+  m_Duration: 15.999666
   m_MaxSpeed: 20
   m_EasingMode: 0
   m_AlignmentMode: 1
@@ -6779,3 +7139,4 @@ SceneRoots:
   - {fileID: 1025909437}
   - {fileID: 462475566}
   - {fileID: 1276316815}
+  - {fileID: 98864128}

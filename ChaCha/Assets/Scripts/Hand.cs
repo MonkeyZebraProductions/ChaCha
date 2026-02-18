@@ -38,7 +38,10 @@ public class Hand : MonoBehaviour
     private float maxGrabBindingDelay = 15f;
     [SerializeField]
     private float HitFill = 0.025f;
+    [SerializeField]
     private AudioSource grabSound;
+    [SerializeField]
+    private AudioSource thumpSound;
     private char firstModifier;
     private char secondModifier;
     private float? grabButtonPressed;
@@ -103,7 +106,7 @@ public class Hand : MonoBehaviour
         additionalButtons.Remove(firstModifier);
         secondModifier = currentAdditionalButtons[Random.Range(0, additionalButtons.Count - 1)];
         additionalButtons.Remove(secondModifier);
-        grabSound = GetComponent<AudioSource>();
+        //grabSound = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -230,6 +233,10 @@ public class Hand : MonoBehaviour
             }
             HoldMeter.value += HitFill * numHits;
             
+            if(thumpSound != null)
+            {
+                thumpSound.Play();
+            }
             numHits++;
         }
         //else
