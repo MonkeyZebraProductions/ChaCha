@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Security.Cryptography.X509Certificates;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -350,6 +351,11 @@ public class Hand : MonoBehaviour
         numHits = 0;
         HoldMeter.value = 0f;
         handSpriteRenderer.sprite = openHandSprite;
+    }
+
+    public void IncreaseGripValue(float gripIncrease)
+    {
+        HoldMeter.value += gripIncrease;
     }
 
     void OnEnable()
