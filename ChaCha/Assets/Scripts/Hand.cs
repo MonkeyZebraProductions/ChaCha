@@ -61,7 +61,7 @@ public class Hand : MonoBehaviour
     [SerializeField]
     private Slider HoldMeter;
     [SerializeField]
-    private TextMeshProUGUI ShiftText;
+    private Image ShiftText;
     [SerializeField]
     private float FillSpeed = 1f;
     [SerializeField]
@@ -69,7 +69,11 @@ public class Hand : MonoBehaviour
 
     [Header("Hand Visuals")]
     [SerializeField]
-    private Transform handSprite;
+    private Transform handVisual;
+    private SpriteRenderer handSpriteRenderer;
+    [SerializeField]
+    private Sprite closedHandSprite;
+    private Sprite openHandSprite;
     [SerializeField]
     private Transform virtualCameraTransform;
     private Transform rickShawTransform;
@@ -86,6 +90,10 @@ public class Hand : MonoBehaviour
         //Assigns variables at start of Runtime
         playerInput = transform.parent.GetComponent<PlayerInput>();
         rb = GetComponent<Rigidbody>();
+        if(handVisual != null )
+        {
+            handSpriteRenderer = handVisual.GetComponent<SpriteRenderer>();
+        }
 
         playerInput.actions.Disable();
         playerInput.actions.FindActionMap(actionMap).Enable();
@@ -106,6 +114,10 @@ public class Hand : MonoBehaviour
         additionalButtons.Remove(firstModifier);
         secondModifier = currentAdditionalButtons[Random.Range(0, additionalButtons.Count - 1)];
         additionalButtons.Remove(secondModifier);
+        if(handSpriteRenderer != null)
+        {
+            openHandSprite = handSpriteRenderer.sprite;
+        }
         //grabSound = GetComponent<AudioSource>();
     }
 
@@ -116,7 +128,7 @@ public class Hand : MonoBehaviour
         float rotationDirection = Vector3.SignedAngle(rickShawTransform.forward,virtualCameraTransform.forward,Vector3.up)*2f;
         if(Grabbed)
         {
-            handSprite.localRotation = Quaternion.Euler(0f,0f, rotationDirection);
+            handVisual.localRotation = Quaternion.Euler(0f,0f, rotationDirection);
 
             if(Mathf.Abs(rotationDirection) >grabAngle)
             {
@@ -137,12 +149,12 @@ public class Hand : MonoBehaviour
             
            if(leftShift)
            {
-                ShiftText.enabled = rotationDirection < -grabAngle + 10;
+                ShiftText.gameObject.SetActive(rotationDirection < -grabAngle + 10);
            }
            else
            {
-                ShiftText.enabled = rotationDirection > grabAngle - 10;
-           }
+                ShiftText.gameObject.SetActive(rotationDirection > -grabAngle - 10);
+            }
 
             if (_gripRelease)
             {
@@ -175,7 +187,8 @@ public class Hand : MonoBehaviour
             _flailing = false;
             grabButtonPressed = null;
             _gripRelease = false;
-            handSprite.localRotation = Quaternion.identity;
+            handVisual.localRotation = Quaternion.identity;
+            handSpriteRenderer.sprite = closedHandSprite;
             if(grabSound)
             {
                 grabSound.Play();
@@ -333,6 +346,7 @@ public class Hand : MonoBehaviour
         _flailing = true;
         numHits = 0;
         HoldMeter.value = 0f;
+        handSpriteRenderer.sprite = openHandSprite;
     }
 
     void OnEnable()
