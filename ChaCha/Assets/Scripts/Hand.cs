@@ -138,7 +138,7 @@ public class Hand : MonoBehaviour
                 }
                 else if (!leftShiftAction.IsPressed() && !rightShiftAction.IsPressed())
                 {
-                    HoldMeter.value += Time.deltaTime * FillSpeed;  
+                    HoldMeter.value += Time.deltaTime * FillSpeed; 
                 }
             }
             else if (Mathf.Abs(rotationDirection) > grabAngle/2 && (rotationDirection < 0f && leftShiftAction.IsPressed() || rotationDirection > 0f && rightShiftAction.IsPressed()))
@@ -153,7 +153,7 @@ public class Hand : MonoBehaviour
            }
            else
            {
-                ShiftText.gameObject.SetActive(rotationDirection > -grabAngle - 10);
+                ShiftText.gameObject.SetActive(rotationDirection > grabAngle - 10);
             }
 
             if (_gripRelease)
@@ -242,9 +242,12 @@ public class Hand : MonoBehaviour
                     rb.linearVelocity = new Vector2(hitNormal.x * AxisRatio, yVelocity).normalized * forceStrength;
                 }
                     Debug.Log(hitNormal);
-
             }
-            HoldMeter.value += HitFill * numHits;
+
+            if(HoldMeter.value <0.5f)
+            {
+                HoldMeter.value += HitFill * numHits;
+            }
             
             if(thumpSound != null)
             {
