@@ -15,10 +15,10 @@ MonoBehaviour:
   active: 1
   type:
     m_OverrideState: 1
-    m_Value: 2
+    m_Value: 3
   intensity:
     m_OverrideState: 1
-    m_Value: 0.4
+    m_Value: 0.27
   response:
     m_OverrideState: 1
     m_Value: 0.7
@@ -46,7 +46,7 @@ MonoBehaviour:
     m_Value: 1
   intensity:
     m_OverrideState: 1
-    m_Value: 0.5
+    m_Value: 0.4
   scatter:
     m_OverrideState: 1
     m_Value: 0.5
@@ -93,7 +93,7 @@ MonoBehaviour:
     m_Value: {x: 0.5, y: 0.5}
   intensity:
     m_OverrideState: 1
-    m_Value: 0.393
+    m_Value: 0.16
   smoothness:
     m_OverrideState: 1
     m_Value: 0.2
@@ -115,7 +115,7 @@ MonoBehaviour:
   active: 1
   shadows:
     m_OverrideState: 1
-    m_Value: {x: 1, y: 1, z: 1, w: -0.5688072}
+    m_Value: {x: 1, y: 1, z: 1, w: -0.1609277}
   midtones:
     m_OverrideState: 1
     m_Value: {x: 1, y: 1, z: 1, w: 0.03669703}
@@ -169,7 +169,7 @@ MonoBehaviour:
   active: 1
   mode:
     m_OverrideState: 1
-    m_Value: 2
+    m_Value: 1
   neutralHDRRangeReductionMode:
     m_OverrideState: 0
     m_Value: 2
@@ -231,7 +231,7 @@ MonoBehaviour:
     m_Value: 2
   intensity:
     m_OverrideState: 1
-    m_Value: 0.3
+    m_Value: 0.354
   clamp:
     m_OverrideState: 0
     m_Value: 0.05
