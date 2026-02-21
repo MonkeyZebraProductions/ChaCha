@@ -18,6 +18,8 @@ public class Hand : MonoBehaviour
     private string grabActionName = "Left Grab";
     [SerializeField]
     private string actionMap = "Left Hand";
+    [SerializeField]
+    private AudioSource grabInputAdded;
 
     [Header("Bouncing")]
     [SerializeField]
@@ -273,9 +275,11 @@ public class Hand : MonoBehaviour
     {
         yield return new WaitForSeconds(Random.Range(minGrabBindingDelay,maxGrabBindingDelay));
         AddOneModifierGrabBinding(); 
+        grabInputAdded.Play();
         yield return new WaitForSeconds(Random.Range(minGrabBindingDelay, maxGrabBindingDelay));
         grabAction.ChangeCompositeBinding("OneModifier").Erase();
         AddTwoModifierGrabBinding(initialGrabBind,firstModifier,secondModifier);
+        grabInputAdded.Play();
     }
 
     IEnumerator AddRandomBinding()
@@ -302,6 +306,7 @@ public class Hand : MonoBehaviour
         yield return new WaitForSeconds(Random.Range(minGrabBindingDelay, maxGrabBindingDelay));
         grabAction.ChangeCompositeBinding("TwoModifiers").Erase();
         AddTwoModifierGrabBinding(initialGrabBind, firstModifier, secondModifier);
+        grabInputAdded.Play();
     }
 
     void ResetBindings()
