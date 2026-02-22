@@ -3,7 +3,7 @@ using UnityEngine.Events;
 
 public class GameManager : MonoBehaviour
 {
-
+    public UnityEvent AwakeEvent;
     public UnityEvent StartEvent;
     public UnityEvent DangerEvent;
     public UnityEvent RegrabEvent;
@@ -17,7 +17,7 @@ public class GameManager : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+        AwakeEvent?.Invoke();
     }
 
     // Update is called once per frame
