@@ -16,8 +16,12 @@ public class SpeedChanger : MonoBehaviour
             speedController.SetSpeedChange(targetSpeed, smoothTime);
             Debug.Log(other.transform.root.name);
         }
-        OnChangeSpeed?.Invoke(targetSpeed,smoothTime);
-        Debug.Log("EventInvoked");
-        Destroy(gameObject);
+        if(other.gameObject.tag == "Player")
+        {
+            OnChangeSpeed?.Invoke(targetSpeed,smoothTime);
+            Debug.Log("EventInvoked");
+            Destroy(gameObject);
+
+        }
     }
 }

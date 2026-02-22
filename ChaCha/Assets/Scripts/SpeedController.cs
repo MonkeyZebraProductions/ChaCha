@@ -36,7 +36,6 @@ public class SpeedController : MonoBehaviour
                 float t = (Time.time - startTime) / duration;
                 currentSpeed = Mathf.Lerp(maxSpeed, targetspeed, t);
                 UpdatePathSpeed(currentSpeed);
-                Debug.Log(currentSpeed);
             }
             else
             {

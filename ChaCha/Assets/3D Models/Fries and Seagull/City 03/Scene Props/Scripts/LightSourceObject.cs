@@ -15,8 +15,8 @@ namespace Seagull.City_03.SceneProps {
     public class LightSourceObject : MonoBehaviour {
         public bool isOn;
         public float TrafficLightSwitchTime = 5f;
-        public GameObject RedHitbox;
-        public GameObject GreenHitbox;
+        public Collider RedHitbox;
+        public Collider GreenHitbox;
         public List<String2GlowLight> lights = new();
         private Dictionary<string, GlowLight> lightMap = new();
         
@@ -33,15 +33,21 @@ namespace Seagull.City_03.SceneProps {
             turnOn("Red");
             turnOff("Yellow");
             turnOff("Green");
-            GreenHitbox.SetActive(false);
-            StartCoroutine(TrafficLightSwap());
+            GreenHitbox.enabled = false;
         }
 
+        public void StartTraffic()
+        {
+            StartCoroutine(TrafficLightSwap());
+        }
         IEnumerator TrafficLightSwap()
         {
-            GameObject currentHitbox = isOn ? GreenHitbox : RedHitbox;
+            Collider currentHitbox = isOn ? GreenHitbox : RedHitbox;
             yield return new WaitForSeconds(TrafficLightSwitchTime);
-            currentHitbox.SetActive(false);
+            if(currentHitbox != null )
+            {
+                currentHitbox.enabled = false;
+            }
             turnOn("Yellow");
             turnOff(isOn ? "Green" : "Red");
             yield return new WaitForSeconds(2f);
@@ -49,8 +55,10 @@ namespace Seagull.City_03.SceneProps {
             isOn = !isOn;
             currentHitbox = isOn ? GreenHitbox : RedHitbox;
             turnOn(isOn ? "Green" : "Red");
-            currentHitbox.SetActive(true);
-            StartCoroutine(TrafficLightSwap());
+            if (currentHitbox != null)
+            {
+                currentHitbox.enabled = true;
+            }
         }
         public void turnOnAll() {
             foreach (var lightMapValue in lightMap.Values) lightMapValue.turnOn();
