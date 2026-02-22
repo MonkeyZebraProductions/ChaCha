@@ -33,8 +33,8 @@ public class SetShakeyCam : MonoBehaviour
     {
         if (cBMCP != null)
         {
-            cBMCP.m_AmplitudeGain = 0;
-            cBMCP.m_FrequencyGain = 0;
+            cBMCP.m_AmplitudeGain = 0.4f;
+            cBMCP.m_FrequencyGain = 0.05f;
         }
         else
         {
