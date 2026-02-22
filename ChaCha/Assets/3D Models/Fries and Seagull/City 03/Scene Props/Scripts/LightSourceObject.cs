@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Seagull.City_03.Inspector;
 # if UNITY_EDITOR
@@ -13,7 +14,9 @@ namespace Seagull.City_03.SceneProps {
 
     public class LightSourceObject : MonoBehaviour {
         public bool isOn;
-        
+        public float TrafficLightSwitchTime = 5f;
+        public GameObject RedHitbox;
+        public GameObject GreenHitbox;
         public List<String2GlowLight> lights = new();
         private Dictionary<string, GlowLight> lightMap = new();
         
@@ -26,8 +29,29 @@ namespace Seagull.City_03.SceneProps {
             onTurnOff.AddListener(turnOffAll);
             
             if (isOn) turnOnAll();
+
+            turnOn("Red");
+            turnOff("Yellow");
+            turnOff("Green");
+            GreenHitbox.SetActive(false);
+            StartCoroutine(TrafficLightSwap());
         }
 
+        IEnumerator TrafficLightSwap()
+        {
+            GameObject currentHitbox = isOn ? GreenHitbox : RedHitbox;
+            yield return new WaitForSeconds(TrafficLightSwitchTime);
+            currentHitbox.SetActive(false);
+            turnOn("Yellow");
+            turnOff(isOn ? "Green" : "Red");
+            yield return new WaitForSeconds(2f);
+            turnOff("Yellow");
+            isOn = !isOn;
+            currentHitbox = isOn ? GreenHitbox : RedHitbox;
+            turnOn(isOn ? "Green" : "Red");
+            currentHitbox.SetActive(true);
+            StartCoroutine(TrafficLightSwap());
+        }
         public void turnOnAll() {
             foreach (var lightMapValue in lightMap.Values) lightMapValue.turnOn();
         }

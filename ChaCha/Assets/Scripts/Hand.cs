@@ -67,6 +67,7 @@ public class Hand : MonoBehaviour
     private Image ShiftText;
     [SerializeField]
     private float FillSpeed = 1f;
+    private float startFillSpeed;
     [SerializeField]
     private bool leftShift; 
 
@@ -121,7 +122,7 @@ public class Hand : MonoBehaviour
         {
             openHandSprite = handSpriteRenderer.sprite;
         }
-        //grabSound = GetComponent<AudioSource>();
+        startFillSpeed = FillSpeed;
     }
 
     // Update is called once per frame
@@ -244,7 +245,7 @@ public class Hand : MonoBehaviour
                     }
                     rb.linearVelocity = new Vector2(hitNormal.x * AxisRatio, yVelocity).normalized * forceStrength;
                 }
-                    Debug.Log(hitNormal);
+                    
             }
 
             if(HoldMeter.value <0.5f)
@@ -361,6 +362,11 @@ public class Hand : MonoBehaviour
     public void IncreaseGripValue(float gripIncrease)
     {
         HoldMeter.value += gripIncrease;
+    }
+
+    public void SetFillRate(bool isZero)
+    {
+        FillSpeed = isZero ? 0f : startFillSpeed;
     }
 
     void OnEnable()

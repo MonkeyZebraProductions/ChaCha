@@ -19,6 +19,7 @@ public class SpeedController : MonoBehaviour
     void Start()
     {
         rickshawSpline = GetComponent<SplineAnimate>();
+        currentSpeed=rickshawSpline.MaxSpeed;
     }
 
     // Update is called once per frame
@@ -30,16 +31,16 @@ public class SpeedController : MonoBehaviour
         }
         if (changeSpeed && (rickshawSpline != null))
         {
-            if (Mathf.Abs(targetspeed - currentSpeed) >= 0.2f)
+            if (Mathf.Abs(currentSpeed-targetspeed) >= 0.2f)
             {
-                float t = (Time.time - startTime) / duration*14.75f;
-                currentSpeed = Mathf.MoveTowards(maxSpeed, targetspeed, t);
+                float t = (Time.time - startTime) / duration;
+                currentSpeed = Mathf.Lerp(maxSpeed, targetspeed, t);
                 UpdatePathSpeed(currentSpeed);
-                //rickshawSpline.ElapsedTime += t/2f;
-                elapsedTime = Time.time - startTime;
+                Debug.Log(currentSpeed);
             }
             else
             {
+                Debug.Log("ChangeSpeedOver");
                 changeSpeed = false;
             }
         }
