@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.Splines;
 
 public class WarningMessage : MonoBehaviour
 {
@@ -7,7 +8,10 @@ public class WarningMessage : MonoBehaviour
     private TextMeshProUGUI TimerText;
     [SerializeField]
     private Canvas canvas;
-
+    [SerializeField]
+    private GameObject rickshaw;
+    [SerializeField]
+    private GameObject FailState;
     [SerializeField]
     private float StartTime = 3f;
     private float currentTime;
@@ -32,8 +36,8 @@ public class WarningMessage : MonoBehaviour
             else
             {
                 TimerText.text = "0";
-                //Fail Event
-                Application.Quit();
+                FailState.SetActive(true);
+                Destroy(rickshaw);
             }
         }
     }
