@@ -68974,14 +68974,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 871235065484416430, guid: 324cb73055fd038498b6e9208819bf17, type: 3}
-      propertyPath: m_TagString
-      value: Player
-      objectReference: {fileID: 0}
-    - target: {fileID: 1142766502407817668, guid: 324cb73055fd038498b6e9208819bf17, type: 3}
-      propertyPath: m_TagString
-      value: Player
-      objectReference: {fileID: 0}
     - target: {fileID: 1372898921980387051, guid: 324cb73055fd038498b6e9208819bf17, type: 3}
       propertyPath: DestinationMeter
       value: 
@@ -68989,10 +68981,6 @@ PrefabInstance:
     - target: {fileID: 1846760913888779274, guid: 324cb73055fd038498b6e9208819bf17, type: 3}
       propertyPath: m_Name
       value: Rickshaw
-      objectReference: {fileID: 0}
-    - target: {fileID: 1846760913888779274, guid: 324cb73055fd038498b6e9208819bf17, type: 3}
-      propertyPath: m_TagString
-      value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 2546716150713282942, guid: 324cb73055fd038498b6e9208819bf17, type: 3}
       propertyPath: ShiftText
@@ -69050,46 +69038,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3571548740217397975, guid: 324cb73055fd038498b6e9208819bf17, type: 3}
-      propertyPath: m_TagString
-      value: Player
-      objectReference: {fileID: 0}
-    - target: {fileID: 3737042198655462408, guid: 324cb73055fd038498b6e9208819bf17, type: 3}
-      propertyPath: m_TagString
-      value: Player
-      objectReference: {fileID: 0}
-    - target: {fileID: 3756887676565052112, guid: 324cb73055fd038498b6e9208819bf17, type: 3}
-      propertyPath: m_TagString
-      value: Player
-      objectReference: {fileID: 0}
     - target: {fileID: 4529970215724532415, guid: 324cb73055fd038498b6e9208819bf17, type: 3}
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 330585545}
     - target: {fileID: 4700575601057121926, guid: 324cb73055fd038498b6e9208819bf17, type: 3}
-      propertyPath: m_Method
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4700575601057121926, guid: 324cb73055fd038498b6e9208819bf17, type: 3}
       propertyPath: m_Target
       value: 
       objectReference: {fileID: 1310721554}
-    - target: {fileID: 4700575601057121926, guid: 324cb73055fd038498b6e9208819bf17, type: 3}
-      propertyPath: m_Duration
-      value: 97.83655
-      objectReference: {fileID: 0}
-    - target: {fileID: 4700575601057121926, guid: 324cb73055fd038498b6e9208819bf17, type: 3}
-      propertyPath: m_MaxSpeed
-      value: 32
-      objectReference: {fileID: 0}
     - target: {fileID: 4841407591294759686, guid: 324cb73055fd038498b6e9208819bf17, type: 3}
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 330585545}
-    - target: {fileID: 4879958191426621600, guid: 324cb73055fd038498b6e9208819bf17, type: 3}
-      propertyPath: m_TagString
-      value: Player
-      objectReference: {fileID: 0}
     - target: {fileID: 5156188576244206152, guid: 324cb73055fd038498b6e9208819bf17, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -69118,10 +69078,6 @@ PrefabInstance:
       propertyPath: virtualCameraTransform
       value: 
       objectReference: {fileID: 1574906724}
-    - target: {fileID: 6247594749944919113, guid: 324cb73055fd038498b6e9208819bf17, type: 3}
-      propertyPath: m_TagString
-      value: Player
-      objectReference: {fileID: 0}
     - target: {fileID: 7034216203157254276, guid: 324cb73055fd038498b6e9208819bf17, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -69129,38 +69085,6 @@ PrefabInstance:
     - target: {fileID: 7034216203157254276, guid: 324cb73055fd038498b6e9208819bf17, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7085380525538139680, guid: 324cb73055fd038498b6e9208819bf17, type: 3}
-      propertyPath: m_TagString
-      value: Player
-      objectReference: {fileID: 0}
-    - target: {fileID: 7336451041286649517, guid: 324cb73055fd038498b6e9208819bf17, type: 3}
-      propertyPath: m_TagString
-      value: Player
-      objectReference: {fileID: 0}
-    - target: {fileID: 8234058325438707008, guid: 324cb73055fd038498b6e9208819bf17, type: 3}
-      propertyPath: m_TagString
-      value: Player
-      objectReference: {fileID: 0}
-    - target: {fileID: 8312660600677733657, guid: 324cb73055fd038498b6e9208819bf17, type: 3}
-      propertyPath: m_TagString
-      value: Player
-      objectReference: {fileID: 0}
-    - target: {fileID: 8451990169914230446, guid: 324cb73055fd038498b6e9208819bf17, type: 3}
-      propertyPath: m_TagString
-      value: Player
-      objectReference: {fileID: 0}
-    - target: {fileID: 8777789883947501753, guid: 324cb73055fd038498b6e9208819bf17, type: 3}
-      propertyPath: m_TagString
-      value: Player
-      objectReference: {fileID: 0}
-    - target: {fileID: 8875725108445759707, guid: 324cb73055fd038498b6e9208819bf17, type: 3}
-      propertyPath: m_TagString
-      value: Player
-      objectReference: {fileID: 0}
-    - target: {fileID: 8905960215590039710, guid: 324cb73055fd038498b6e9208819bf17, type: 3}
-      propertyPath: m_TagString
-      value: Player
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

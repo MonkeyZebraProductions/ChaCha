@@ -45,6 +45,8 @@ public class Hand : MonoBehaviour
     private AudioSource grabSound;
     [SerializeField]
     private AudioSource thumpSound;
+    [SerializeField]
+    private AudioSource skidSound;
     private char firstModifier;
     private char secondModifier;
     private float? grabButtonPressed;
@@ -143,6 +145,10 @@ public class Hand : MonoBehaviour
                 else if (!leftShiftAction.IsPressed() && !rightShiftAction.IsPressed())
                 {
                     HoldMeter.value += Time.deltaTime * FillSpeed; 
+                    if(skidSound != null && !skidSound.isPlaying)
+                    {
+                        skidSound.Play();
+                    }
                 }
             }
             else if (Mathf.Abs(rotationDirection) > grabAngle/2 && (rotationDirection < 0f && leftShiftAction.IsPressed() || rotationDirection > 0f && rightShiftAction.IsPressed()))
