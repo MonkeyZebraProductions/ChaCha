@@ -50598,7 +50598,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  targetSpeed: 40
+  targetSpeed: 35
   smoothTime: 2
 --- !u!4 &1459572131 stripped
 Transform:
@@ -71882,11 +71882,11 @@ PrefabInstance:
       objectReference: {fileID: 1310721554}
     - target: {fileID: 4700575601057121926, guid: 324cb73055fd038498b6e9208819bf17, type: 3}
       propertyPath: m_Duration
-      value: 111.813194
+      value: 104.358986
       objectReference: {fileID: 0}
     - target: {fileID: 4700575601057121926, guid: 324cb73055fd038498b6e9208819bf17, type: 3}
       propertyPath: m_MaxSpeed
-      value: 28
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 4841407591294759686, guid: 324cb73055fd038498b6e9208819bf17, type: 3}
       propertyPath: m_Camera
