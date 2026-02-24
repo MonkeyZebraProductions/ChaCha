@@ -1,4 +1,5 @@
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -14,10 +15,14 @@ public class FailState : MonoBehaviour
     private AudioSource[] Sounds;
     [SerializeField]
     private float delay;
-
+    [SerializeField]
+    private bool sucessScreen;
     private void Start()
     {
-        StartCoroutine(FailSequence());
+        if (!sucessScreen)
+        {
+            StartCoroutine(FailSequence());
+        }
     }
     private void Update()
     {
