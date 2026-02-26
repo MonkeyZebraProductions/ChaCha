@@ -53,6 +53,6 @@ public class WarningMessage : MonoBehaviour
     {
         _timeStarted = false;
         canvas.enabled = false;
-        StartTime -= 0.2f;
+        StartTime -= 0.1f;
     }
 }

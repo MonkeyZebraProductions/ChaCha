@@ -111,9 +111,30 @@ public class Hand : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        //StartCoroutine(AddAdditionalBinding());
-        GrabControlText.text = grabAction.GetBindingDisplayString(1);
-        initialGrabBind = grabAction.GetBindingDisplayString(1);
+        foreach(InputBinding binding in grabAction.bindings)
+        {
+            if( binding != null )
+            {
+                if(binding.isComposite)
+                {
+                    grabAction.ChangeCompositeBinding(binding.GetNameOfComposite()).Erase();
+                }
+            }
+        }
+        foreach (InputBinding binding in grabAction.bindings)
+        {
+            if (binding != null)
+            {
+ 
+                grabAction.ChangeBinding(binding).Erase();
+
+            }
+        }
+        //grabAction.binding
+        //grabAction.ChangeBindingWithGroup("Keyboard&Mouse").Erase();
+        grabAction.AddBinding("<Keyboard>/" + (leftShift ? "F" : "H"), groups: "Keyboard&Mouse");
+        initialGrabBind = grabAction.GetBindingDisplayString(0);
+        GrabControlText.text = (initialGrabBind);
         rickShawTransform = transform.parent;
         currentAdditionalButtons = additionalButtons;
         firstModifier = currentAdditionalButtons[Random.Range(0, additionalButtons.Count - 1)];
@@ -160,10 +181,26 @@ public class Hand : MonoBehaviour
            if(leftShift)
            {
                 ShiftText.gameObject.SetActive(rotationDirection < -grabAngle + 10);
+                if(rightShiftAction.IsPressed())
+                {
+                    ShiftText.color = Color.gray;
+                }
+                else
+                {
+                    ShiftText.color = Color.white;
+                }
            }
            else
            {
                 ShiftText.gameObject.SetActive(rotationDirection > grabAngle - 10);
+                if (leftShiftAction.IsPressed())
+                {
+                    ShiftText.color = Color.gray;
+                }
+                else
+                {  
+                    ShiftText.color = Color.white;
+                }
             }
 
             if (_gripRelease)
@@ -175,6 +212,7 @@ public class Hand : MonoBehaviour
             {
                 ReleaseGrip();
             }
+            handSpriteRenderer.color = new Color(1f,1f-HoldMeter.value,1f - HoldMeter.value);
         }
 
     }
@@ -182,9 +220,13 @@ public class Hand : MonoBehaviour
     private void FixedUpdate()
     {
          transform.localPosition = new Vector3 (transform.localPosition.x, transform.localPosition.y,-0.65f);
-        if(Grabbed )
+        if(Grabbed)
         {
             rb.linearVelocity=Vector3.zero;
+        }
+        else if (rb.linearVelocity.magnitude <=1f && _flailing)
+        {
+            rb.linearVelocity = Random.insideUnitCircle.normalized * forceStrength * 2f;
         }
     }
 
@@ -254,7 +296,7 @@ public class Hand : MonoBehaviour
                     
             }
 
-            if(HoldMeter.value <0.5f)
+            if(HoldMeter.value <0.7f)
             {
                 HoldMeter.value += HitFill * numHits;
             }
@@ -329,7 +371,7 @@ public class Hand : MonoBehaviour
         grabAction.ChangeBindingWithGroup("Keyboard&Mouse").Erase();
         grabAction.AddCompositeBinding("OneModifier").With("Binding", "<Keyboard>/" + initialGrabBind, groups:"Keyboard&Mouse")
                                                      .With("Modifier", "<Keyboard>/" + firstModifier, groups: "Keyboard&Mouse");
-        GrabControlText.text = grabAction.GetBindingDisplayString(1);
+        GrabControlText.text = grabAction.GetBindingDisplayString(0);
         
     }
     void AddTwoModifierGrabBinding(string binding, char modifier1, char modifier2)
@@ -337,7 +379,7 @@ public class Hand : MonoBehaviour
         grabAction.AddCompositeBinding("TwoModifiers").With("Binding", "<Keyboard>/" + binding, groups: "Keyboard&Mouse")
                                                      .With("Modifier1", "<Keyboard>/" + modifier1, groups: "Keyboard&Mouse")
                                                      .With("Modifier2", "<Keyboard>/" + modifier2, groups: "Keyboard&Mouse");
-        GrabControlText.text = grabAction.GetBindingDisplayString(1);
+        GrabControlText.text = grabAction.GetBindingDisplayString(0);
         StartCoroutine(AddRandomBinding());
     }
 
