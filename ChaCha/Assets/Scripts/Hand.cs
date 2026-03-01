@@ -1,3 +1,4 @@
+using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
 using System.Security.Cryptography.X509Certificates;
@@ -59,6 +60,11 @@ public class Hand : MonoBehaviour
     private int numHits;
     private bool _flailing;
 
+    [Header("Camera")]
+    [SerializeField]
+    private CinemachineVirtualCamera ShiftCamera;
+
+
 
     [Header("UI")]
     [SerializeField]
@@ -71,7 +77,9 @@ public class Hand : MonoBehaviour
     private float FillSpeed = 1f;
     private float startFillSpeed;
     [SerializeField]
-    private bool leftShift; 
+    private bool leftShift;
+    [SerializeField]
+    private Animator textAnimator;
 
     [Header("Hand Visuals")]
     [SerializeField]
@@ -181,13 +189,16 @@ public class Hand : MonoBehaviour
            if(leftShift)
            {
                 ShiftText.gameObject.SetActive(rotationDirection < -grabAngle + 10);
-                if(rightShiftAction.IsPressed())
+                if (rightShiftAction.IsPressed())
                 {
                     ShiftText.color = Color.gray;
+                    ShiftCamera.Priority = 2;
+
                 }
                 else
                 {
                     ShiftText.color = Color.white;
+                    ShiftCamera.Priority = 0;
                 }
            }
            else
@@ -196,10 +207,12 @@ public class Hand : MonoBehaviour
                 if (leftShiftAction.IsPressed())
                 {
                     ShiftText.color = Color.gray;
+                    ShiftCamera.Priority = 2;
                 }
                 else
                 {  
                     ShiftText.color = Color.white;
+                    ShiftCamera.Priority = 0;
                 }
             }
 
@@ -324,11 +337,13 @@ public class Hand : MonoBehaviour
     {
         yield return new WaitForSeconds(Random.Range(minGrabBindingDelay,maxGrabBindingDelay));
         AddOneModifierGrabBinding(); 
+        textAnimator.Play("GrowText");
         grabInputAdded.Play();
         yield return new WaitForSeconds(Random.Range(minGrabBindingDelay, maxGrabBindingDelay));
         grabAction.ChangeCompositeBinding("OneModifier").Erase();
         AddTwoModifierGrabBinding(initialGrabBind,firstModifier,secondModifier);
         grabInputAdded.Play();
+        textAnimator.Play("GrowText");
     }
 
     IEnumerator AddRandomBinding()
@@ -356,6 +371,7 @@ public class Hand : MonoBehaviour
         grabAction.ChangeCompositeBinding("TwoModifiers").Erase();
         AddTwoModifierGrabBinding(initialGrabBind, firstModifier, secondModifier);
         grabInputAdded.Play();
+        textAnimator.Play("GrowText");
     }
 
     void ResetBindings()
