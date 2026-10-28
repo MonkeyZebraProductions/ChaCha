@@ -116,9 +116,12 @@ public class Hand : MonoBehaviour
         leftShiftAction = playerInput.actions["Shift Left"];
         rightShiftAction = playerInput.actions["Shift Right"];
     }
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+
+        //Reset Controls on game startup
         foreach(InputBinding binding in grabAction.bindings)
         {
             if( binding != null )
@@ -138,8 +141,6 @@ public class Hand : MonoBehaviour
 
             }
         }
-        //grabAction.binding
-        //grabAction.ChangeBindingWithGroup("Keyboard&Mouse").Erase();
         grabAction.AddBinding("<Keyboard>/" + (leftShift ? "F" : "H"), groups: "Keyboard&Mouse");
         initialGrabBind = grabAction.GetBindingDisplayString(0);
         GrabControlText.text = (initialGrabBind);
@@ -149,6 +150,7 @@ public class Hand : MonoBehaviour
         additionalButtons.Remove(firstModifier);
         secondModifier = currentAdditionalButtons[Random.Range(0, additionalButtons.Count - 1)];
         additionalButtons.Remove(secondModifier);
+
         if(handSpriteRenderer != null)
         {
             openHandSprite = handSpriteRenderer.sprite;
@@ -160,16 +162,20 @@ public class Hand : MonoBehaviour
     void Update()
     {
         
+        //Rotate hand based on rickshaw direction.
         float rotationDirection = Vector3.SignedAngle(rickShawTransform.forward,virtualCameraTransform.forward,Vector3.up)*2f;
+
+
         if(Grabbed)
         {
             handVisual.localRotation = Quaternion.Euler(0f,0f, rotationDirection);
 
+            //Increase Hold Meter if not shifting or shifting incorrectly
             if(Mathf.Abs(rotationDirection) >grabAngle)
             {
                 if (rotationDirection > 0f && leftShiftAction.IsPressed() || rotationDirection < 0f && rightShiftAction.IsPressed())
                 {
-
+                    //Do Nothing
                 }
                 else if (!leftShiftAction.IsPressed() && !rightShiftAction.IsPressed())
                 {
@@ -182,10 +188,10 @@ public class Hand : MonoBehaviour
             }
             else if (Mathf.Abs(rotationDirection) > grabAngle/2 && (rotationDirection < 0f && leftShiftAction.IsPressed() || rotationDirection > 0f && rightShiftAction.IsPressed()))
             {
-                HoldMeter.value += Time.deltaTime * FillSpeed;
-                
+                HoldMeter.value += Time.deltaTime * FillSpeed;                
             }
             
+            //Feedback when shift button is pressed
            if(leftShift)
            {
                 ShiftText.gameObject.SetActive(rotationDirection < -grabAngle + 10);
@@ -232,7 +238,8 @@ public class Hand : MonoBehaviour
 
     private void FixedUpdate()
     {
-         transform.localPosition = new Vector3 (transform.localPosition.x, transform.localPosition.y,-0.65f);
+        //Alter speed of hands
+        transform.localPosition = new Vector3 (transform.localPosition.x, transform.localPosition.y,-0.65f);
         if(Grabbed)
         {
             rb.linearVelocity=Vector3.zero;
@@ -245,8 +252,8 @@ public class Hand : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-
-        if(Time.time-grabButtonPressed <GrabGracePeriod && other.gameObject.layer == 6)
+        //Grab onto Rickshaw when buttons are pressed within window
+        if(Time.time-grabButtonPressed < GrabGracePeriod && other.gameObject.layer == 6)
         {
             Grabbed = true;
             _flailing = false;
@@ -258,7 +265,6 @@ public class Hand : MonoBehaviour
             {
                 grabSound.Play();
             }
-            //rb.constraints = RigidbodyConstraints.FreezeAll;
         }
     }
 
@@ -266,16 +272,7 @@ public class Hand : MonoBehaviour
     {
         if (_flailing)
         {
-            //if (rb.linearVelocity.magnitude < forceStrength)
-            //{
-            //    rb.linearVelocity = rb.linearVelocity.normalized * forceStrength;
-            //}
-
-            //if (rb.linearVelocity.magnitude > forceStrength)
-            //{
-            //    rb.linearVelocity = rb.linearVelocity.normalized * forceStrength;
-            //}
-
+            //Bounce hand when collided with screen edge
             foreach (ContactPoint contactPoint in collision.contacts)
             {
                 Vector2 hitNormal = contactPoint.normal;
@@ -320,12 +317,6 @@ public class Hand : MonoBehaviour
             }
             numHits++;
         }
-        //else
-        //{
-        //    rb.linearVelocity = Vector3.zero;
-        //    Debug.Log("Don't MOVE!");
-        //}
-        //AddGrabBinding();
     }
 
     public void AddGrabBindings()
@@ -333,6 +324,7 @@ public class Hand : MonoBehaviour
         StartCoroutine(AddAdditionalBinding());
     }
 
+    //Add Binding After Time Passes
     IEnumerator AddAdditionalBinding()
     {
         yield return new WaitForSeconds(Random.Range(minGrabBindingDelay,maxGrabBindingDelay));
@@ -412,6 +404,7 @@ public class Hand : MonoBehaviour
         }
     }
 
+    //Let go of Rickshaw when Hold Meter is full
     void ReleaseGrip()
     {
         _gripRelease = false;

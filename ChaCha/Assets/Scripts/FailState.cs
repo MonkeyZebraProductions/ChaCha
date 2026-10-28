@@ -16,10 +16,10 @@ public class FailState : MonoBehaviour
     [SerializeField]
     private float delay;
     [SerializeField]
-    private bool sucessScreen;
+    private bool successScreen;
     private void Start()
     {
-        if (!sucessScreen)
+        if (!successScreen)
         {
             StartCoroutine(FailSequence());
         }
@@ -32,6 +32,7 @@ public class FailState : MonoBehaviour
         }
     }
 
+    //Play Cutscene on Game Fail
     IEnumerator FailSequence()
     {
         Sounds[0].Play();

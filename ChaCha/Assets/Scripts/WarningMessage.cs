@@ -26,6 +26,7 @@ public class WarningMessage : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //Display Remaining time before failure
         if (_timeStarted)
         {
             if(currentTime > 0)

@@ -8,6 +8,8 @@ public class SpeedChanger : MonoBehaviour
     private float targetSpeed = 5f;
     [SerializeField]
     private float smoothTime = 2f;
+
+    //Change Speed of Rickshaw when Entering Zone
     private void OnTriggerEnter(Collider other)
     {
         SpeedController speedController = other.transform.root.gameObject.GetComponent<SpeedController>();

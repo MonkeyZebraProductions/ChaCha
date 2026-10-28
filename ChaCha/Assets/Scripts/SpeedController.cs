@@ -10,11 +10,8 @@ public class SpeedController : MonoBehaviour
     private float elapsedTime;
     [SerializeField]
     private Slider DestinationMeter;
-    //[SerializeField]
-    //private SplineContainer rickshawSpline;
-    //[SerializeField]
-    //private float StartSpeed=20;
     private SplineAnimate rickshawSpline;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -29,6 +26,8 @@ public class SpeedController : MonoBehaviour
         {
             DestinationMeter.value = rickshawSpline.NormalizedTime;
         }
+
+        //Change Speed over time when called
         if (changeSpeed && (rickshawSpline != null))
         {
             if (Mathf.Abs(currentSpeed-targetspeed) >= 0.2f)
@@ -51,6 +50,7 @@ public class SpeedController : MonoBehaviour
         rickshawSpline.MaxSpeed = newSpeed;
         rickshawSpline.NormalizedTime = prevProgress;
     }
+
     public void SetSpeedChange(float inSpeed,float inTime)
     {
         targetspeed = inSpeed;

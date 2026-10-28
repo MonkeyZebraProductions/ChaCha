@@ -25,28 +25,26 @@ public class GameManager : MonoBehaviour
     {
         if(LeftHand != null && RightHand != null)
         {
+            //If Both Hands are grabbed, start the game
             if (!_gameStarted && LeftHand.Grabbed && RightHand.Grabbed)
             {
                 StartEvent?.Invoke();
                 _gameStarted = true;
             }
 
+            //If neither hand is grabbed, tell the player they are in danger
             if(_gameStarted && !_inDanger && !LeftHand.Grabbed && !RightHand.Grabbed)
             {
                 DangerEvent?.Invoke();
                 _inDanger = true;
             }
 
+            //When both hands are grabbed and the player is in danger, take them out of danger
             if (_gameStarted && _inDanger && (LeftHand.Grabbed || RightHand.Grabbed))
             {
                 RegrabEvent?.Invoke();
                 _inDanger = false;
             }
         }
-    }
-
-    public void GameFail()
-    {
-
     }
 }
